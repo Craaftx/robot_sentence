@@ -44,8 +44,7 @@ body {
 
 .controler__logs {
     margin: 3rem 0;
-    width: 100%;
-    padding: 20px 30px;
+    width: 100%; height: auto;
     box-sizing: border-box;
     background-color: #444444;
 }
@@ -53,7 +52,11 @@ body {
 .controler__logs span {
     display: block;
     letter-spacing: 0px;
-    margin-bottom: 15px;
+    padding: 20px 30px 0 30px;
+}
+
+.controler__logs span:nth-last-child(1) {
+    padding: 20px 30px 20px 30px;
 }
 
 .controler__actions__item .action-button {

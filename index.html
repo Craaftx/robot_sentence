@@ -40,25 +40,24 @@
         <div class="controler__content">
             <div class="controler__actions">
                 <div class="controler__actions__item">
-                    <div class="action-list">
+                    <div class="action-list" id="action-list-number">
                         <div class="action-list__title">Choisir le nombre de citations à générer</div>
-                        <div class="action-button">1</div>
-                        <div class="action-button active">2</div>
-                        <div class="action-button">3</div>
-                        <div class="action-button">4</div>
-                        <div class="action-button">5</div>
-                        <div class="action-button">6</div>
+                        <div class="action-button" onclick="setNumber('1')">1</div>
+                        <div class="action-button" onclick="setNumber('2')">2</div>
+                        <div class="action-button" onclick="setNumber('3')">3</div>
+                        <div class="action-button" onclick="setNumber('4')">4</div>
+                        <div class="action-button" onclick="setNumber('5')">5</div>
+                        <div class="action-button" onclick="setNumber('6')">6</div>
                     </div>
                 </div>
                 <div class="controler__actions__item">
-                    <div class="action-list">
+                    <div class="action-list" id="action-list-theme">
                         <div class="action-list__title">Choisir le thème de vos citations</div>
-                        <div class="action-button active">Western</div>
-                        <div class="action-button">Jeux</div>
+                        <div class="action-button" onclick="setTheme('1')">Western</div>
+                        <div class="action-button" onclick="setTheme('2')">Jeux</div>
                     </div>
                 </div>
-                <div class="controler__logs">
-                    <span></span>
+                <div class="controler__logs" id="frontend-result">
                 </div>
             </div>
             <div class="controler__actions">
@@ -70,6 +69,7 @@
             </div>
         </div>
     </div>
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>

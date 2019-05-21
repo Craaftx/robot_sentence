@@ -31,6 +31,10 @@ body {
     text-align: center;
 }
 .controler__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
     padding: 0rem 2rem 3rem 2rem;
 }
 .controler__logs {
@@ -40,15 +44,15 @@ body {
     box-sizing: border-box;
     background-color: #444444;
 }
-.controler__logs { 
+.controler__logs span { 
     display: block;
     letter-spacing: 0px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 .controler__actions__item .action-button {
     display: inline-block;
     position: relative;
-    background: #E74C3C;
+    background: #8ad1c0;
     padding: 10px 20px;
     margin-right: 5px;
     overflow: hidden;
@@ -59,12 +63,13 @@ body {
     text-align: center;
     font-weight: 700;
     border-radius: 5px;
+    color: #333;
 }
 .controler__actions__item .action-button:before {
     position: absolute;
     top: 0%; left: 0;
     width: 100%; height: 100%;
-    background: #C0392B;
+    background: #6ba396;
     content: "";
     z-index: -2;
 }
@@ -72,13 +77,46 @@ body {
     position: absolute;
     top: 0%; left: 0;
     width: 100%; height: 90%;
-    background: #E74C3C;
+    background: #8ad1c0;
     border-radius: 5px;
     content: "";
     z-index: -2;
 }
-.controler__actions__item .action-list {
-
+.controler__actions__item .action-button.active {
+    display: inline-block;
+    position: relative;
+    background: #8a9ad1;
+    padding: 8px 20px;
+    margin-right: 5px;
+    overflow: hidden;
+    z-index: 1;
+    cursor: pointer;
+    line-height: 2rem;
+    font-size: 1rem;
+    text-align: center;
+    font-weight: 700;
+    border-radius: 5px;
+    color: #333;
+}
+.controler__actions__item .action-button.active:before {
+    position: absolute;
+    top: 0%; left: 0;
+    width: 100%; height: 100%;
+    background: #576388;
+    content: "";
+    z-index: -2;
+}
+.controler__actions__item .action-button.active:after {
+    position: absolute;
+    top: 0%; left: 0;
+    width: 100%; height: 95%;
+    background: #8a9ad1;
+    border-radius: 5px;
+    content: "";
+    z-index: -2;
+}
+.controler__actions__item .action-button.float-right {
+    float: right;
 }
 .controler__actions__item .action-list__title {
     font-size: 1.4rem;

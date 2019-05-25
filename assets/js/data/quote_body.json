@@ -1,0 +1,13 @@
+{
+    "western": {
+        "items": [
+            { "value": "Je suis" },
+            { "value": "Je te" },
+            { "value": "J'ai vu" },
+            { "value": "Tu vas" },
+            { "value": "Entrez," },
+            { "value": "Va te" },
+            { "value": "Je regarde" }
+        ]
+    }
+}

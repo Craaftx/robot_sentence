@@ -166,21 +166,22 @@ body {
     width: 360px;
 }
 
-.robot__sentence {
+.robot__quote {
     position: absolute;
     bottom: 550px;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
     padding: 20px 20px;
-    margin: 0 -80px 0 -80px;
     background-color: #e3e5e1;
     border-radius: 50px;
     font-family: 'Press Start 2P', cursive;
     text-align: center;
     will-change: transform;
-    animation: up-floating 2s ease-in-out 0.6s infinite alternate;
+    animation: quote-floating 2s ease-in-out 0.6s infinite alternate;
 }
 
-.robot__sentence::before {
+.robot__quote::before {
     content: "";
     position: absolute;
     bottom: -20px;
@@ -428,6 +429,15 @@ body {
     border-bottom-right-radius: 40px;
     border-bottom-left-radius: 40px;
     animation: talking 0.4s linear infinite alternate;
+}
+
+@keyframes quote-floating {
+    0% {
+        transform: translateX(-50%) translateY(0px);
+    }
+    100% {
+        transform: translateX(-50%) translateY(30px);
+    }
 }
 
 @keyframes up-floating {

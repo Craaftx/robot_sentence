@@ -1,76 +1,82 @@
-// Global vars
+const $quoteList = document.querySelector("#frontend-result");
+const $robot = document.querySelector("#robot");
+const $robotQuote = document.querySelector("#robot__quote");
+
+const robotFeelings = ["none", "happy", "talking"];
+const themeData = ["western", "azeroth"];
+
+const quotePath = Object.create(null);
+quotePath.begin = "quote_begin.json";
+quotePath.body = "quote_body.json";
+quotePath.end = "quote_end.json";
+
 let quoteNumber = 0;
 let quoteTheme = -1;
 let quoteResult = [];
-
-// Data for quote generation
-let themeData = ['western', 'azeroth'];
+let quoteBlacklist = [];
 let quoteData = Object.create(null);
 quoteData.begin = null;
 quoteData.body = null;
 quoteData.end = null;
-let quotePath = Object.create(null);
-quotePath.begin = 'quote_begin.json';
-quotePath.body = 'quote_body.json';
-quotePath.end = 'quote_end.json';
-let quoteBlacklist = [];
 
-// Front End "Hooks"
-let frontEnd_Display = document.getElementById("frontend-result");
-let robot_Talk = document.getElementById("robot__quote");
-let robot = document.getElementById("robot");
-
-// Setup robot_Feeling
-let robot_Feelings = ["none", "happy", "talking"];
-
+/**
+ * Setter
+ */
 function setRobotFeeling(value) {
-    robot.setAttribute('class', 'robot ' + robot_Feelings[value]);
+  $robot.setAttribute("class", "robot " + robotFeelings[value]);
 }
 
 function setRobotSentence(sentence) {
-  robot_Talk.innerText = "";
-  robot_Talk.innerText = sentence;
+  $robotQuote.innerText = "";
+  $robotQuote.innerText = sentence;
 }
 
-// Setter for Global Vars
 function setNumber(value) {
-    quoteNumber = value;
-    resetActionList("action-list-number", value);
+  quoteNumber = value;
+  resetActionList("action-list-number", value);
 }
 
 function setTheme(value) {
-    quoteTheme = value - 1;
-    resetActionList("action-list-theme", value);
+  quoteTheme = value - 1;
+  resetActionList("action-list-theme", value);
+}
+
+/**
+ * Getter
+ */
+function getRandomPart(quoteItems) {
+  return quoteItems[Math.floor(Math.random() * quoteItems.length)].value;
 }
 
 function addToBlacklist(value) {
   quoteBlacklist.push(value);
 }
 
-function checkBlacklist(value) {
-  quoteBlacklist.includes(value);
+function checkInBlacklist(value) {
+  return quoteBlacklist.includes(value);
 }
 
-// Control button activation when setter are used
 function resetActionList(htmlSelector, value) {
-    var actionList = document.getElementById(htmlSelector).getElementsByClassName('action-button');
-    for (var i = 0; i < actionList.length; i++) {
-        actionList[i].classList.remove("active");
-    }
-    actionList[value - 1].classList.add("active");
+  let actionList = document
+    .getElementById(htmlSelector)
+    .getElementsByClassName("action-button");
+  for (let i = 0; i < actionList.length; i++) {
+    actionList[i].classList.remove("active");
+  }
+  actionList[value - 1].classList.add("active");
 }
 
 // Synchronous call on JSON local file
 function loadJSON(url, callback) {
-    var xobj = new XMLHttpRequest();
-    xobj.overrideMimeType("application/json");
-    xobj.open('GET', '/assets/js/data/' + url, false);
-    xobj.onreadystatechange = function() {
-        if (xobj.readyState == 4 && xobj.status == "200") {
-            callback(xobj.responseText);
-        }
-    };
-    xobj.send(null);
+  let xobj = new XMLHttpRequest();
+  xobj.overrideMimeType("application/json");
+  xobj.open("GET", "/assets/js/data/" + url, false);
+  xobj.onreadystatechange = function() {
+    if (xobj.readyState == 4 && xobj.status == "200") {
+      callback(xobj.responseText);
+    }
+  };
+  xobj.send(null);
 }
 
 function initData() {
@@ -85,55 +91,58 @@ function initData() {
   });
 }
 
-initData();
-setRobotSentence("Salut ! Utilise les commandes à ta droite pour que je puisse t'aider..")
-
-function getRandomPart(quoteItems) {
-    return quoteItems[Math.floor(Math.random() * quoteItems.length)].value;
-}
-
 function displayQuote() {
-    console.log(quoteResult);
-}
-
-function displayQuote_FrontEnd(theme) {
-  var node = frontEnd_Display;  
-  while (node.hasChildNodes()) {
-    node.removeChild(node.lastChild);
+  let quoteList = $quoteList;
+  while (quoteList.hasChildNodes()) {
+    quoteList.removeChild(quoteList.lastChild);
   }
-  for (var i = 0; i < quoteResult.length; i++) {
-    var newDiv = document.createElement("div");
-    newDiv.addEventListener('click', function(){
+  for (let i = 0; i < quoteResult.length; i++) {
+    let newDiv = document.createElement("div");
+    newDiv.addEventListener("click", function() {
       addToBlacklist(this.innerText);
       this.style.display = "none";
     });
-    var newContent = document.createTextNode(quoteResult[i]);
+    let newContent = document.createTextNode(quoteResult[i]);
     newDiv.appendChild(newContent);
-    frontEnd_Display.appendChild(newDiv);
+    quoteList.appendChild(newDiv);
   }
 }
 
 function generateQuote() {
-  if(quoteNumber == 0 || quoteTheme == -1) {
+  if (quoteNumber == 0 || quoteTheme == -1) {
     setRobotSentence("Tu dois séléctionner des options pour continuer");
   } else {
-    var actualTheme = quoteTheme;
-    var actualNumber = quoteNumber;
     setRobotFeeling(1);
     setRobotSentence("Génération des phrases..");
+    let actualTheme = quoteTheme;
+    let actualNumber = quoteNumber;
     quoteResult = [];
-    for (var i = 0; i < actualNumber; i++) {
+    for (let i = 0; i < actualNumber; i++) {
       do {
         themeString = themeData[actualTheme];
-        quoteResult[i] = getRandomPart(eval(`quoteData.begin.${themeString}.items`)) + ' ';
-        quoteResult[i] += getRandomPart(eval(`quoteData.body.${themeString}.items`)) + ' ';
-        quoteResult[i] += getRandomPart(eval(`quoteData.end.${themeString}.items`));
-      } while (checkBlacklist(quoteResult[i]));
+        quoteResult[i] =
+          getRandomPart(eval(`quoteData.begin.${themeString}.items`)) + " ";
+        quoteResult[i] +=
+          getRandomPart(eval(`quoteData.body.${themeString}.items`)) + " ";
+        quoteResult[i] += getRandomPart(
+          eval(`quoteData.end.${themeString}.items`)
+        );
+      } while (checkInBlacklist(quoteResult[i]));
     }
-    setTimeout(function(){ 
+    setTimeout(function() {
       setRobotFeeling(0);
-      setRobotSentence("Terminé ! Apprends moi les mauvaises phrases en cliquant dessus !");
-      displayQuote_FrontEnd(actualTheme);
+      setRobotSentence(
+        "Terminé ! Apprends moi les mauvaises phrases en cliquant dessus !"
+      );
+      displayQuote();
     }, 2000);
   }
 }
+
+(function() {
+  initData();
+})();
+
+/**
+ * Event Listeners
+ */

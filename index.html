@@ -38,32 +38,26 @@
     <div class="controler">
         <div class="controler__title">Talk'O'Matic</div>
         <div class="controler__content">
-            <div class="controler__actions">
-                <div class="controler__actions__item">
-                    <div class="action-list" id="action-list-number">
-                        <div class="action-list__title">Choisir le nombre de citations à générer</div>
-                        <div class="action-button" onclick="setNumber('1')">1</div>
-                        <div class="action-button" onclick="setNumber('2')">2</div>
-                        <div class="action-button" onclick="setNumber('3')">3</div>
-                        <div class="action-button" onclick="setNumber('4')">4</div>
-                        <div class="action-button" onclick="setNumber('5')">5</div>
-                        <div class="action-button" onclick="setNumber('6')">6</div>
-                    </div>
+            <div class="controler__content__actions">
+                <div class="controler__content__actions__list" id="number-list">
+                    <div class="controler__content__actions__list__title">Choisir le nombre de citations à générer</div>
+                    <button class="controler__content__actions__list__button" value="1">1</button>
+                    <button class="controler__content__actions__list__button" value="2">2</button>
+                    <button class="controler__content__actions__list__button" value="3">3</button>
+                    <button class="controler__content__actions__list__button" value="4">4</button>
+                    <button class="controler__content__actions__list__button" value="5">5</button>
+                    <button class="controler__content__actions__list__button" value="6">6</button>
                 </div>
-                <div class="controler__actions__item">
-                    <div class="action-list" id="action-list-theme">
-                        <div class="action-list__title">Choisir le thème de vos citations</div>
-                        <div class="action-button" onclick="setTheme('1')">Western</div>
-                        <div class="action-button" onclick="setTheme('2')">Azeroth</div>
-                    </div>
+                <div class="controler__content__actions__list" id="theme-list">
+                    <div class="controler__content__actions__list__title">Choisir le thème de vos citations</div>
+                    <button class="controler__content__actions__list__button" value="1">Western</button>
+                    <button class="controler__content__actions__list__button" value="2">Azeroth</button>
                 </div>
-                <div class="controler__logs" id="frontend-result"></div>
+                <div class="controler__content__logs" id="frontend-display"></div>
             </div>
-            <div class="controler__actions">
-                <div class="controler__actions__item">
-                    <div class="action-list">
-                        <div class="action-button float-right" onclick="generateQuote()">Générer</div>
-                    </div>
+            <div class="controler__content__actions">
+                <div class="controler__content__actions__list">
+                    <button class="controler__content__actions__list__button float-right" id="generate-action">Générer</button>
                 </div>
             </div>
         </div>

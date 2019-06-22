@@ -17,9 +17,6 @@ let quoteTheme = -1;
 let quoteResult = [];
 let quoteBlacklist = [];
 
-/**
- * Setter
- */
 function setRobotFeeling(value) {
   $robot.setAttribute("class", "robot " + robotFeelings[value]);
 }
@@ -43,9 +40,6 @@ function addToBlacklist(value) {
   quoteBlacklist.push(value);
 }
 
-/**
- * Getter
- */
 function getRandomPart(quoteItems) {
   return quoteItems[Math.floor(Math.random() * quoteItems.length)].value;
 }
@@ -54,14 +48,22 @@ function checkInBlacklist(value) {
   return quoteBlacklist.includes(value);
 }
 
+/**
+ * Remove .active class from older action and add .active to the new action selected.
+ */
 function resetActionList(htmlSelector, value) {
-  let actionList = htmlSelector.getElementsByClassName("controler__content__actions__list__button");
+  let actionList = htmlSelector.getElementsByClassName(
+    "controler__content__actions__list__button"
+  );
   for (let i = 0; i < actionList.length; i++) {
     actionList[i].classList.remove("active");
   }
   actionList[value - 1].classList.add("active");
 }
 
+/**
+ * Display the quotes generated in HTML and delete older ones.
+ */
 function displayQuote() {
   let quoteList = $quoteList;
   while (quoteList.hasChildNodes()) {
@@ -79,20 +81,21 @@ function displayQuote() {
   }
 }
 
+/**
+ * Generate a number of citations according to the user's choices.
+ */
 function generateQuote() {
   if (quoteNumber == 0 || quoteTheme == -1) {
     setRobotSentence("Tu dois séléctionner des options pour continuer");
   } else {
     setRobotFeeling(1);
     setRobotSentence("Génération des phrases..");
-    let actualTheme = quoteTheme;
-    let actualNumber = quoteNumber;
     quoteResult = [];
-    for (let i = 0; i < actualNumber; i++) {
+    for (let i = 0; i < quoteNumber; i++) {
       do {
-        let themeString = themeData[actualTheme];
-        quoteResult[i] = getRandomPart(quoteDataBegin[themeString].items) + ' ';
-        quoteResult[i] += getRandomPart(quoteDataBody[themeString].items) + ' ';
+        let themeString = themeData[quoteTheme];
+        quoteResult[i] = getRandomPart(quoteDataBegin[themeString].items) + " ";
+        quoteResult[i] += getRandomPart(quoteDataBody[themeString].items) + " ";
         quoteResult[i] += getRandomPart(quoteDataEnd[themeString].items);
       } while (checkInBlacklist(quoteResult[i]));
     }
@@ -107,22 +110,22 @@ function generateQuote() {
 }
 
 /**
- * Event Listeners
+ * ---- Event Listeners ----
  */
-let $numbers = $numberList.getElementsByTagName('button');
+let $numbers = $numberList.getElementsByTagName("button");
 for (var i = 0; i < $numbers.length; i++) {
-  $numbers[i].addEventListener('click', function(){ 
+  $numbers[i].addEventListener("click", function() {
     setNumber(this.value);
   });
 }
 
-let $themes = $themeList.getElementsByTagName('button');
+let $themes = $themeList.getElementsByTagName("button");
 for (var i = 0; i < $themes.length; i++) {
-  $themes[i].addEventListener('click', function(){ 
+  $themes[i].addEventListener("click", function() {
     setTheme(this.value);
   });
 }
 
-$generateAction.addEventListener('click', function(){ 
+$generateAction.addEventListener("click", function() {
   generateQuote();
 });

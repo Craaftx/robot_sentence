@@ -1,4 +1,7 @@
-const $quoteList = document.querySelector("#frontend-result");
+const $quoteList = document.querySelector("#frontend-display");
+const $numberList = document.querySelector("#number-list");
+const $themeList = document.querySelector("#theme-list");
+const $generateAction = document.querySelector("#generate-action");
 const $robot = document.querySelector("#robot");
 const $robotQuote = document.querySelector("#robot__quote");
 
@@ -33,12 +36,16 @@ function setRobotSentence(sentence) {
 
 function setNumber(value) {
   quoteNumber = value;
-  resetActionList("action-list-number", value);
+  resetActionList($numberList, value);
 }
 
 function setTheme(value) {
   quoteTheme = value - 1;
-  resetActionList("action-list-theme", value);
+  resetActionList($themeList, value);
+}
+
+function addToBlacklist(value) {
+  quoteBlacklist.push(value);
 }
 
 /**
@@ -48,18 +55,12 @@ function getRandomPart(quoteItems) {
   return quoteItems[Math.floor(Math.random() * quoteItems.length)].value;
 }
 
-function addToBlacklist(value) {
-  quoteBlacklist.push(value);
-}
-
 function checkInBlacklist(value) {
   return quoteBlacklist.includes(value);
 }
 
 function resetActionList(htmlSelector, value) {
-  let actionList = document
-    .getElementById(htmlSelector)
-    .getElementsByClassName("action-button");
+  let actionList = htmlSelector.getElementsByClassName("controler__content__actions__list__button");
   for (let i = 0; i < actionList.length; i++) {
     actionList[i].classList.remove("active");
   }
@@ -120,13 +121,9 @@ function generateQuote() {
     for (let i = 0; i < actualNumber; i++) {
       do {
         themeString = themeData[actualTheme];
-        quoteResult[i] =
-          getRandomPart(eval(`quoteData.begin.${themeString}.items`)) + " ";
-        quoteResult[i] +=
-          getRandomPart(eval(`quoteData.body.${themeString}.items`)) + " ";
-        quoteResult[i] += getRandomPart(
-          eval(`quoteData.end.${themeString}.items`)
-        );
+        quoteResult[i] = getRandomPart(quoteData.begin[themeString].items) + ' ';
+        quoteResult[i] += getRandomPart(quoteData.body[themeString].items) + ' ';
+        quoteResult[i] += getRandomPart(quoteData.end[themeString].items);
       } while (checkInBlacklist(quoteResult[i]));
     }
     setTimeout(function() {
@@ -146,3 +143,20 @@ function generateQuote() {
 /**
  * Event Listeners
  */
+let $numbers = $numberList.getElementsByTagName('button');
+for (var i = 0; i < $numbers.length; i++) {
+  $numbers[i].addEventListener('click', function(){ 
+    setNumber(this.value);
+  });
+}
+
+let $themes = $themeList.getElementsByTagName('button');
+for (var i = 0; i < $themes.length; i++) {
+  $themes[i].addEventListener('click', function(){ 
+    setTheme(this.value);
+  });
+}
+
+$generateAction.addEventListener('click', function(){ 
+  generateQuote();
+});

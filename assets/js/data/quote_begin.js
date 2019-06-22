@@ -1,4 +1,4 @@
-{
+export default Object.freeze({
     "western": {
         "items": [
             { "value": "Tu vois, le monde se divise en deux catégories," },
@@ -23,4 +23,4 @@
             { "value": "Quelle joie y'a t-il" }
         ]
     }
-}
+});

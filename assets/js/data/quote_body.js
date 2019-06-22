@@ -1,4 +1,4 @@
-{
+export default Object.freeze({
     "western": {
         "items": [
             { "value": "ceux qui ont un pistolet chargé et" },
@@ -23,4 +23,4 @@
             { "value": "vous donne" }
         ]
     }
-}
+});

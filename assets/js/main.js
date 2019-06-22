@@ -1,3 +1,7 @@
+import quoteDataBegin from "./data/quote_begin.js";
+import quoteDataBody from "./data/quote_body.js";
+import quoteDataEnd from "./data/quote_end.js";
+
 const $quoteList = document.querySelector("#frontend-display");
 const $numberList = document.querySelector("#number-list");
 const $themeList = document.querySelector("#theme-list");
@@ -8,19 +12,10 @@ const $robotQuote = document.querySelector("#robot__quote");
 const robotFeelings = ["none", "happy", "talking"];
 const themeData = ["western", "azeroth"];
 
-const quotePath = Object.create(null);
-quotePath.begin = "quote_begin.json";
-quotePath.body = "quote_body.json";
-quotePath.end = "quote_end.json";
-
 let quoteNumber = 0;
 let quoteTheme = -1;
 let quoteResult = [];
 let quoteBlacklist = [];
-let quoteData = Object.create(null);
-quoteData.begin = null;
-quoteData.body = null;
-quoteData.end = null;
 
 /**
  * Setter
@@ -67,31 +62,6 @@ function resetActionList(htmlSelector, value) {
   actionList[value - 1].classList.add("active");
 }
 
-// Synchronous call on JSON local file
-function loadJSON(url, callback) {
-  let xobj = new XMLHttpRequest();
-  xobj.overrideMimeType("application/json");
-  xobj.open("GET", "/assets/js/data/" + url, false);
-  xobj.onreadystatechange = function() {
-    if (xobj.readyState == 4 && xobj.status == "200") {
-      callback(xobj.responseText);
-    }
-  };
-  xobj.send(null);
-}
-
-function initData() {
-  loadJSON(quotePath.begin, function(response) {
-    quoteData.begin = JSON.parse(response);
-  });
-  loadJSON(quotePath.body, function(response) {
-    quoteData.body = JSON.parse(response);
-  });
-  loadJSON(quotePath.end, function(response) {
-    quoteData.end = JSON.parse(response);
-  });
-}
-
 function displayQuote() {
   let quoteList = $quoteList;
   while (quoteList.hasChildNodes()) {
@@ -120,25 +90,21 @@ function generateQuote() {
     quoteResult = [];
     for (let i = 0; i < actualNumber; i++) {
       do {
-        themeString = themeData[actualTheme];
-        quoteResult[i] = getRandomPart(quoteData.begin[themeString].items) + ' ';
-        quoteResult[i] += getRandomPart(quoteData.body[themeString].items) + ' ';
-        quoteResult[i] += getRandomPart(quoteData.end[themeString].items);
+        let themeString = themeData[actualTheme];
+        quoteResult[i] = getRandomPart(quoteDataBegin[themeString].items) + ' ';
+        quoteResult[i] += getRandomPart(quoteDataBody[themeString].items) + ' ';
+        quoteResult[i] += getRandomPart(quoteDataEnd[themeString].items);
       } while (checkInBlacklist(quoteResult[i]));
     }
     setTimeout(function() {
       setRobotFeeling(0);
       setRobotSentence(
-        "Terminé ! Apprends moi les mauvaises phrases en cliquant dessus !"
+        "Terminé ! Montre moi les phrases fausses en cliquant dessus"
       );
       displayQuote();
-    }, 2000);
+    }, 1500);
   }
 }
-
-(function() {
-  initData();
-})();
 
 /**
  * Event Listeners
